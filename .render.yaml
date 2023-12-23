@@ -1,0 +1,5 @@
+name: AstroPeliculasOf Search bot
+env:
+  - TELEGRAM_BOT_TOKEN: "6980968831:AAG41Ii-Go9JMiIyXJKpjQHBFHj9AzDBXPI"
+buildCommand: npm install
+startCommand: npm start
