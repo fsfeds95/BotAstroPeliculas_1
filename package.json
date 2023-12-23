@@ -1,8 +1,11 @@
 {
-  "name": "movie-telegram-bot",
+  "name": "AstroPeliculasOf Search bot",
   "version": "1.0.0",
-  "description": "Telegram bot for movie search using TheMovieDB API",
+  "description": "Un bot buscador de películas con la ayuda de la API de TheMovieDB.",
   "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
   "dependencies": {
     "node-telegram-bot-api": "^0.53.0",
     "axios": "^0.21.1"
