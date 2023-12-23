@@ -1,7 +1,7 @@
 const express = require('express');
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
-const config = require('./config');
+const config = require('./config.js');
 
 const bot = new TelegramBot(config.telegramToken, {polling: true});
 const app = express();
@@ -70,6 +70,11 @@ bot.onText(/\/id (.+)/, async (msg, match) => {
     console.error(error);
     bot.sendMessage(chatId, 'Ocurrió un error al buscar la película');
   }
+});
+
+// Manejar el error de autenticación de Telegram
+bot.on("polling_error", (error) => {
+  console.error(error);
 });
 
 app.listen(PORT, () => {
