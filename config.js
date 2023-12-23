@@ -1,4 +1,4 @@
 module.exports = {
-  telegramToken: "6501994235:AAGR2S96c-hgHV1Cj8fDHej70VTGqimFUO4",
+  telegramToken: "6980968831:AAG41Ii-Go9JMiIyXJKpjQHBFHj9AzDBXPI",
   movieDbKey: "74dc824830c7f93dc61b03e324070886"
 };
