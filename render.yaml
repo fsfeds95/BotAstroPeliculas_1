@@ -1,0 +1,4 @@
+name: movie-bot
+env: node
+buildCommand: npm ci
+startCommand: node bot.js
