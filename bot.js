@@ -1,7 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 
-const token = 'YOUR_TELEGRAM_BOT_TOKEN'; // Reemplaza con el token de tu bot de Telegram
+const token = '6980968831:AAG41Ii-Go9JMiIyXJKpjQHBFHj9AzDBXPI'; // Reemplaza con el token de tu bot de Telegram
 const apiKey = '74dc824830c7f93dc61b03e324070886'; // API key de TheMovieDB
 
 const bot = new TelegramBot(token, { polling: true });
