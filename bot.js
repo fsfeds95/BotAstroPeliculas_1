@@ -1,14 +1,15 @@
-const TelegramBot = require('node-telegram-bot-api');
+const { Telegraf } = require('telegraf');
 const axios = require('axios');
 
 const token = '6980968831:AAG41Ii-Go9JMiIyXJKpjQHBFHj9AzDBXPI'; // Reemplaza con el token de tu bot de Telegram
 const apiKey = '74dc824830c7f93dc61b03e324070886'; // API key de TheMovieDB
 
-const bot = new TelegramBot(token, { polling: true });
+const bot = new Telegraf(token);
 
-bot.onText(/\/buscar (.+)/, async (msg, match) => {
-  const chatId = msg.chat.id;
-  const query = match[1];
+bot.start((ctx) => ctx.reply('¡Hola! Envía el comando /buscar seguido del título de una película para buscar información de películas.'));
+
+bot.command('buscar', async (ctx) => {
+  const query = ctx.message.text.split(' ').slice(1).join(' ');
 
   try {
     const response = await axios.get(
@@ -29,24 +30,23 @@ bot.onText(/\/buscar (.+)/, async (msg, match) => {
       const posterUrl = getPosterUrl(posterPath);
       const trailerUrl = `https://www.youtube.com/watch?v=${trailer}`;
 
-      await bot.sendPhoto(chatId, posterUrl, { caption: `${title} (${originalTitle})` });
-      await bot.sendMessage(chatId, `Géneros: ${genres}`);
-      await bot.sendMessage(chatId, `Año de estreno: ${releaseYear}`);
-      await bot.sendMessage(chatId, `Idioma original: ${originalLanguage}`);
-      await bot.sendMessage(chatId, `Sinopsis: ${overview}`);
-      await bot.sendMessage(chatId, `Trailer: ${trailerUrl}`);
+      ctx.replyWithPhoto({ url: posterUrl }, { caption: `${title} (${originalTitle})` });
+      ctx.reply(`Géneros: ${genres}`);
+      ctx.reply(`Año de estreno: ${releaseYear}`);
+      ctx.reply(`Idioma original: ${originalLanguage}`);
+      ctx.reply(`Sinopsis: ${overview}`);
+      ctx.reply(`Trailer: ${trailerUrl}`);
     } else {
-      await bot.sendMessage(chatId, 'No se encontraron películas con ese título.');
+      ctx.reply('No se encontraron películas con ese título.');
     }
   } catch (error) {
     console.error(error);
-    await bot.sendMessage(chatId, 'Ocurrió un error al buscar la película.');
+    ctx.reply('Ocurrió un error al buscar la película.');
   }
 });
 
-bot.onText(/\/id (.+)/, async (msg, match) => {
-  const chatId = msg.chat.id;
-  const movieId = match[1];
+bot.command('id', async (ctx) => {
+  const movieId = ctx.message.text.split(' ').slice(1).join(' ');
 
   try {
     const response = await axios.get(
@@ -66,15 +66,15 @@ bot.onText(/\/id (.+)/, async (msg, match) => {
     const posterUrl = getPosterUrl(posterPath);
     const trailerUrl = `https://www.youtube.com/watch?v=${trailer}`;
 
-    await bot.sendPhoto(chatId, posterUrl, { caption: `${title} (${originalTitle})` });
-    await bot.sendMessage(chatId, `Géneros: ${genres}`);
-    await bot.sendMessage(chatId, `Año de estreno: ${releaseYear}`);
-    await bot.sendMessage(chatId, `Idioma original: ${originalLanguage}`);
-    await bot.sendMessage(chatId, `Sinopsis: ${overview}`);
-    await bot.sendMessage(chatId, `Trailer: ${trailerUrl}`);
+    ctx.replyWithPhoto({ url: posterUrl }, { caption: `${title} (${originalTitle})` });
+    ctx.reply(`Géneros: ${genres}`);
+    ctx.reply(`Año de estreno: ${releaseYear}`);
+    ctx.reply(`Idioma original: ${originalLanguage}`);
+    ctx.reply(`Sinopsis: ${overview}`);
+    ctx.reply(`Trailer: ${trailerUrl}`);
   } catch (error) {
     console.error(error);
-    await bot.sendMessage(chatId, 'Ocurrió un error al obtener la película.');
+    ctx.reply('Ocurrió un error al obtener la película.');
   }
 });
 
@@ -106,4 +106,6 @@ function getPosterUrl(posterPath) {
   } else {
     return '';
   }
-      }
+}
+
+bot.launch();
